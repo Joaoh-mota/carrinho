@@ -1,0 +1,57 @@
+<div th:replace="fragments/header :: modelheader"></div>
+<h2>Detalhes da venda</h2>
+<hr>
+<style>
+    .even-larger-badge {
+        font-size: 1.1em;
+
+    }
+    .row{
+        padding-top: 15px;
+        height: 80px;
+    }
+
+</style>
+<div class="row">
+    <div class="col" align="center">
+        <label class="badge badge-success even-larger-badge ">Id da venda:</label>
+        <p class="font-weight-bold" th:text="${venda.getId}" ></p>
+    </div>
+    <div class="col" align="center">
+        <label class="badge badge-success even-larger-badge">Cliente:</label>
+        <p class="font-weight-bold"  th:text="${venda.pessoa.getNome}" ></p>
+    </div>
+    <div class="col" align="center">
+        <label class="badge badge-success even-larger-badge">Data da venda: </label>
+        <p class="font-weight-bold"  th:text="${#temporals.format(data.getData)}" ></p>
+    </div>
+    <div class="col" align="center">
+        <label class="badge badge-success even-larger-badge">Total da venda: </label>
+        <p class="font-weight-bold"  th:text=" ${#numbers.formatCurrency(venda.total())}" ></p>
+    </div>
+</div>
+<hr>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th class="text-center font-weight-bold">Id do item</th>
+            <th class="text-center font-weight-bold">Nome do item</th>
+            <th class="text-center font-weight-bold">Quantidade</th>
+            <th class="text-center font-weight-bold">Valor</th>
+            <th class="text-center font-weight-bold">Total produto</th>
+        </tr>
+    </thead>
+    <tr th:each="i : ${detalhes}">
+        <td class="text-center" th:text="${i.id}"> </td>
+        <td class="text-center" th:text="${i.produto.getDescricao}"> </td>
+        <td class="text-center" th:text="${i.qtd}"> </td>
+        <td class="text-center" th:text="${#numbers.formatCurrency({i.produto.getValor})}"> </td>
+        <td class="text-center" th:text="${#numbers.formatCurrency({i.produto.getValor*i.qtd})}"> </td>
+    </tr>
+
+
+</table>
+<hr>
+<button class="btn"><a th:href="@{/vendas/list}" class="btn btn-primary" >Voltar para vendas</a></button>
+
+<div th:insert="fragments/footer :: modelfooter"></div>

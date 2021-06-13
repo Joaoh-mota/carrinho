@@ -1,0 +1,26 @@
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div>
+    <h2>Produtos cadastrados</h2>
+    <hr>
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <td class="text-center font-weight-bold">Produto</td>
+                <td class="text-center font-weight-bold">Valor</td>
+                <td class="text-center font-weight-bold">Ações</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p,pos : ${produtos}">
+                <td class="text-center" th:text="${p.descricao}"></td> 
+                <td class="text-center" th:text="${#numbers.formatCurrency(p.valor)}"></td>
+                <td class="text-center" > <a th:href="@{/produtos/edit/{id}(id=${p.id})}">Editar</a> | 
+                    <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/produtos/remove/{id}(id=${p.id})}">Excluir</a> </td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div th:insert="fragments/footer :: modelfooter"></div>

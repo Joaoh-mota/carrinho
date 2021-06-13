@@ -1,0 +1,116 @@
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div th:class="${!#strings.isEmpty(carrinhoVazio)} ?'alert alert-danger'">
+    <span th:text="${!#strings.isEmpty(carrinhoVazio)} ? ${carrinhoVazio}"> </span>
+</div>
+
+<div th:class="${!#strings.isEmpty(semCliente)} ?'alert alert-danger'">
+    <span th:text="${!#strings.isEmpty(semCliente)} ? ${semCliente}"> </span>
+</div>
+
+<div class="alert alert-danger" th:errors="${itemVenda.*}"></div>
+<style>
+    input {
+        font-size: 16px;
+        padding:6px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button { 
+        all: unset; 
+        min-width: 21px;
+        min-height: 45px;
+        margin: 17px;
+        padding: 0px;
+        background-image: 
+            linear-gradient(to top, transparent 0px, transparent 16px, #fff 16px, #fff 26px, transparent 26px, transparent 35px, #000 35px,#000 36px,transparent 36px, transparent 40px),
+            linear-gradient(to right, transparent 0px, transparent 10px, #000 10px, #000 11px, transparent 11px, transparent 21px);
+        transform: rotate(90deg) scale(0.8, 0.9);
+        cursor:pointer;
+    }
+</style>
+<div>
+    <div>
+        <h2>Lista de produtos</h2>
+        <hr>
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <td class="text-center font-weight-bold">Produto</td>
+                    <td class="text-center font-weight-bold">Valor</td>
+                    <td class="text-center font-weight-bold">Insira a quantidade</td>
+                    <td class="text-center font-weight-bold">Ação</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${produtos}">
+                    <td class="text-center" th:text="${p.descricao}"></td> 
+                    <td class="text-center" th:text="${#numbers.formatCurrency(p.valor)}"></td>
+            <form th:action="@{/vendas/add}" th:object="${itemVenda}" method="post">
+                <input type="hidden" th:value="${p.id}" th:name="produto.id">
+                <td class="text-center"><input type="number" th:field="*{qtd}" ></td>
+                <td class="text-center "><input type="submit" value="Selecionar"></td>
+            </form>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <hr>
+    <div>
+        <div class="row">
+            <div class="col-9">
+                <h2>Carrinho</h2>
+            </div>
+            <div class="col">
+                <h2 class="badge badge-success d-flex justify-content-end align-middle" style="font-size: 1.1em; height: 40px; padding-top: 9px;" th:text="'Total da compra: '+ ${#numbers.formatCurrency(session.venda.total())}"> </h2>
+            </div>
+        </div>
+        <hr>
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <td class="text-center font-weight-bold">Index</td>
+                    <td class="text-center font-weight-bold">Produto</td>
+                    <td class="text-center font-weight-bold">Valor</td>
+                    <td class="text-center font-weight-bold">Quantidade</td>
+                    <td class="text-center font-weight-bold">Total</td>
+                    <td class="text-center font-weight-bold">Ações</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="i,pos : ${session.venda.itens}">
+                    <td class="text-center" th:text="${pos.index+1}"></td>
+                    <td class="text-center" th:text="${i.produto.descricao}"></td>
+                    <td class="text-center" th:text="${#numbers.formatCurrency(i.produto.valor)}"></td>
+                    <td class="text-center" th:text="${i.qtd}"></td>
+                    <td class="text-center" th:text="${#numbers.formatCurrency(i.total())}"></td>
+                    <td class="text-center"> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')" th:href="@{/vendas/remove/{pos}(pos=${pos.index})}" >Excluir</a> </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <hr>
+            <h2>Selecione o cliente</h2>
+            <hr>
+            <form th:action="@{/vendas/save}" th:object="${pessoaFisica}" method="post">
+                <div class="input-group">
+                    <select name="id" class="form-control custom-select" >
+                        <option value="">Cliente</option>
+                        <option th:each="p : ${pessoasF}"
+                                th:value="${p.id}"
+                                th:text="${p.nome}"/>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Finalizar venda</button>
+                    </div>
+
+                </div>
+                <br>
+            </form>
+        </div>
+        <br>
+    </div>
+</div>
+<div th:insert="fragments/footer :: modelfooter"></div>

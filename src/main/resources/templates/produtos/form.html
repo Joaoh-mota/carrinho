@@ -1,0 +1,23 @@
+<div th:replace="fragments/header :: modelheader"></div>
+
+<div>
+    <h2>Cadastrar produtos</h2>
+    <hr>
+    <form th:action="${produto.id == null} ? @{/produtos/addProd} : @{/produtos/update}" th:object="${produto}" method="post">
+        <div class="form-group">
+            <input type="hidden" th:value="${id}" th:name="id">
+            <label for="nomeExemplo">Nome do produto</label>
+            <input type="text" class="form-control" th:field="*{descricao}" placeholder="Nome">
+            <label for="valorExemplo">Valor do produto</label>
+            <input type="text" class="form-control" th:field="*{valor}" placeholder="Valor">
+            <br>
+            <input type="submit" class="btn btn-primary" value="Cadastrar">
+        </div>
+        <div class="mt-3 alert alert-danger" role="alert" th:each="erro : ${#fields.detailedErrors()}">
+            <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
+        </div>
+    </form>
+</div>
+<br>
+
+<div th:insert="fragments/footer :: modelfooter"></div>

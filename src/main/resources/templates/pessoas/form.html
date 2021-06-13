@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+        <link href="/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css" rel="stylesheet"/>        
+
+    </head>
+    <body>
+        <div class="jumbotron" style="padding-top: 30px">
+            <div class="container">
+
+                <h2>Cadastrar cliente</h2>
+                <hr>
+                <form th:action="${pessoaFisica.id == null} ? @{/pessoas/save} : @{/pessoas/update}" th:object="${pessoaFisica}" method="post">
+                    <div class="form-group">
+                        <input type="hidden" th:field="*{id}">
+                        <label for="nomeExemplo">Nome do cliente</label>
+                        <input type="text" class="form-control" th:field="*{nome}"  placeholder="Nome">
+                        <label for="nomeExemplo">Cpf do cliente</label>
+                        <input type="text" class="form-control" th:field="*{cpf}"  placeholder="CPF">
+                        <br>
+                        <input type="submit" class="btn btn-primary" value="Cadastrar">
+                    </div>
+                    <div class="mt-3 alert alert-danger" role="alert" th:each="erro : ${#fields.detailedErrors()}">
+                        <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
+                    </div>
+                </form>
+                <button class="btn"><a th:href="@{/login}" class="btn btn-primary" >Voltar para o login</a></button>
+
+                <div th:insert="fragments/footer :: modelfooter"></div>

@@ -1,0 +1,27 @@
+<div th:replace="fragments/header :: modelheader"></div>
+<h2>Clientes cadastrados</h2>
+<hr>
+<form th:action="@{/pessoas/pesquisarPessoa}" method="post">
+    <label>Pesquisa por nome:</label>
+    <input name="nomepesquisa">
+    <input type="submit" value="Filtrar">
+</form>
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th class="text-center" >Id</th>
+            <th class="text-center" >Nome</th>
+            <th class="text-center" >CPF</th>
+            <th class="text-center" >Ações</th>
+        </tr>
+    </thead>
+    <tr th:each="p : ${pessoas}">
+        <td class="text-center"  th:text="${p.id}"> </td>
+        <td class="text-center"  th:text="${p.nome}"> </td>
+        <td class="text-center"  th:text="${p.cpf}"> </td>
+        <td class="text-center" > <a th:href="@{/pessoas/edit/{id}(id=${p.id})}">Editar</a> | 
+            <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/pessoas/remove/{id}(id=${p.id})}">Excluir</a> </td>
+    </tr>
+</table>
+
+<div th:insert="fragments/footer :: modelfooter"></div>

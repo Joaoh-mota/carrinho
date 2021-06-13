@@ -1,0 +1,32 @@
+<div th:replace="fragments/header :: modelheader"></div>
+
+<h2>Lista de vendas</h2>
+<hr>
+
+<form th:action="@{/vendas/pesquisarVenda}" method="post">
+    <label>Pesquisa por data: </label>
+    <input name="datapesquisa"  type=date>
+    <input type="submit" value="Filtrar">
+</form>
+
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th class="text-center font-weight-bold">Id da venda</th>
+            <th class="text-center font-weight-bold">Cliente</th>
+            <th class="text-center font-weight-bold">Data</th>
+            <th class="text-center font-weight-bold">Total</th>
+            <th class="text-center font-weight-bold">Informações</th>
+        </tr>
+    </thead>
+    <tr th:each="v : ${vendas}">
+        <td class="text-center" th:text="${v.id}"> </td>
+        <td class="text-center" th:text="${v.pessoa.getNome}"> </td>
+        <td class="text-center" th:text="${#temporals.format(v.data,'dd/MM/yyyy')}"> </td>
+        <td class="text-center" th:text="${#numbers.formatCurrency(v.total())}"> </td>
+        <td class="text-center" > <a th:href="@{/vendas/detalhes/{id}(id=${v.id})}">Consultar</a></td>
+    </tr>
+</table>
+<br>
+<button class="btn"><a th:href="@{/vendas/form}" class="btn btn-primary" >Fazer outra venda</a></button>
+<div th:insert="fragments/footer :: modelfooter"></div>
