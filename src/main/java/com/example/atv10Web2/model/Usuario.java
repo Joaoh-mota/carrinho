@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +27,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Usuario implements Serializable, UserDetails {
 
     @Id
+    @GeneratedValue
+    private Long id;
+
     private String login;
 
     private String password;
@@ -86,6 +89,14 @@ public class Usuario implements Serializable, UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

@@ -7,6 +7,7 @@ package com.example.atv10Web2.model;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -21,6 +22,9 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role implements GrantedAuthority {
 
     @Id
+    @GeneratedValue
+    private Long id;
+    
     private String nome;
 
     @ManyToMany(mappedBy = "roles")
@@ -47,4 +51,11 @@ public class Role implements GrantedAuthority {
         this.usuarios = usuarios;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
